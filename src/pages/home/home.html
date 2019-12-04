@@ -1,18 +1,30 @@
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <h1>JOKENPÔ SENAC</h1>
+  <div class="box-option">
+    <p>Escolha a opção:</p>
+    <div class="row-option">
+      <span class="box1" (click)="escolha('pedra')">
+        <img src="assets/imgs/pedra.svg" />
+      </span>
+      <span class="box2" (click)="escolha('papel')">
+        <img src="assets/imgs/papel.svg" />
+      </span>
+      <span class="box3" (click)="escolha('tesoura')">
+        <img src="assets/imgs/tesoura.svg" />
+      </span>
+    </div>
+  </div>
+  <div class="box-select">
+    <p>Computador:</p>
+    <div class="row-player">
+      <p>{{escolhaComputador}}</p>
+    </div>
+  </div>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <div class="box-result">
+    <p>Resultado:</p>
+    <div class="row-player">
+      <p>{{resultado}}</p>
+    </div>
+  </div>
 </ion-content>
