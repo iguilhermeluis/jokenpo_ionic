@@ -9,7 +9,8 @@ import { ListPage } from "../pages/list/list";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { Vibration } from "@ionic-native/vibration";
-
+import { OneSignal } from "@ionic-native/onesignal";
+import { NativeAudio } from "@ionic-native/native-audio";
 @NgModule({
   declarations: [MyApp, HomePage, ListPage],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
@@ -19,7 +20,9 @@ import { Vibration } from "@ionic-native/vibration";
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    Vibration
+    Vibration,
+    OneSignal,
+    NativeAudio
   ]
 })
 export class AppModule {}

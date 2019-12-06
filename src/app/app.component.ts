@@ -5,6 +5,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 
 import { HomePage } from "../pages/home/home";
 import { ListPage } from "../pages/list/list";
+import { OneSignal } from "@ionic-native/onesignal";
 
 @Component({
   templateUrl: "app.html"
@@ -19,15 +20,16 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    public oneSignal: OneSignal
   ) {
-    this.initializeApp();
-
     // used for an example of ngFor and navigation
     this.pages = [
       { title: "Home", component: HomePage },
       { title: "List", component: ListPage }
     ];
+
+    this.initializeApp();
   }
 
   initializeApp() {
@@ -38,7 +40,29 @@ export class MyApp {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString("#02073e");
       this.splashScreen.hide();
+      this.initOnesignal();
     });
+  }
+
+  initOnesignal() {
+    this.oneSignal.startInit(
+      "3fb6b944-cfe0-4974-8602-21fb051855a1",
+      "277987106305"
+    );
+
+    this.oneSignal.inFocusDisplaying(
+      this.oneSignal.OSInFocusDisplayOption.InAppAlert
+    );
+
+    this.oneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when notification is received
+    });
+
+    this.oneSignal.handleNotificationOpened().subscribe(() => {
+      // do something when a notification is opened
+    });
+
+    this.oneSignal.endInit();
   }
 
   openPage(page) {

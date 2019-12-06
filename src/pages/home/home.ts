@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { Vibration } from "@ionic-native/vibration";
+import { NativeAudio } from "@ionic-native/native-audio";
 
 @Component({
   selector: "page-home",
@@ -11,8 +12,25 @@ export class HomePage {
   escolhaComputador: string = "Escolha uma opção";
   resultado: string = "Escolha uma opção";
 
-  constructor(public navCtrl: NavController, private vibration: Vibration) {}
-
+  constructor(
+    public navCtrl: NavController,
+    private vibration: Vibration,
+    private nativeAudio: NativeAudio
+  ) {
+    // pre carregando os arquivos
+    this.nativeAudio.preloadSimple("ganhou", "assets/sounds/ganhou.mp3").then();
+    this.nativeAudio.preloadSimple("perdeu", "assets/sounds/perdeu.mp3").then();
+    //tipo complexo permite loop
+    //preloadComplex(id, assetPath, volume, voices, delay)
+    this.nativeAudio
+      .preloadComplex("bg", "assets/sounds/bg-music.mp3", 1, 1, 0)
+      .then();
+  }
+  ionViewDidLoad() {
+    setTimeout(() => {
+      this.nativeAudio.loop("bg").then(); // fica tocando musica de fundo
+    }, 3000);
+  }
   escolha(opcao) {
     this.vibration.vibrate(500);
     this.escolhaPlay = opcao;
@@ -83,5 +101,13 @@ export class HomePage {
     }
     this.escolhaComputador = escolhaComputador;
     this.resultado = resultado;
+
+    if (resultado == "Você ganhou") {
+      this.nativeAudio.play("ganhou").then();
+    } else if (resultado == "Você ganhou") {
+      this.nativeAudio.play("ganhou").then();
+    } else {
+      this.nativeAudio.play("perdeu").then();
+    }
   }
 }
