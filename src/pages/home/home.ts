@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController } from "ionic-angular";
+import { NavController, Platform } from "ionic-angular";
 import { Vibration } from "@ionic-native/vibration";
 import { NativeAudio } from "@ionic-native/native-audio";
 
@@ -15,21 +15,29 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     private vibration: Vibration,
-    private nativeAudio: NativeAudio
-  ) {
-    // pre carregando os arquivos
-    this.nativeAudio.preloadSimple("ganhou", "assets/sounds/ganhou.mp3").then();
-    this.nativeAudio.preloadSimple("perdeu", "assets/sounds/perdeu.mp3").then();
-    //tipo complexo permite loop
-    //preloadComplex(id, assetPath, volume, voices, delay)
-    this.nativeAudio
-      .preloadComplex("bg", "assets/sounds/bg-music.mp3", 1, 1, 0)
-      .then();
-  }
+    private nativeAudio: NativeAudio,
+    public platform: Platform
+  ) {}
   ionViewDidLoad() {
-    setTimeout(() => {
-      this.nativeAudio.loop("bg").then(); // fica tocando musica de fundo
-    }, 3000);
+    this.initializeSons();
+  }
+
+  initializeSons() {
+    this.platform.ready().then(() => {
+      this.nativeAudio
+        .preloadSimple("ganhou", "assets/sounds/ganhou.mp3")
+        .then();
+      this.nativeAudio
+        .preloadSimple("perdeu", "assets/sounds/perdeu.mp3")
+        .then();
+      //tipo complexo permite loop
+      //preloadComplex(id, assetPath, volume, voices, delay)
+      this.nativeAudio
+        .preloadComplex("bg", "assets/sounds/bg-music.mp3", 1, 1, 0)
+        .then(() => {
+          this.nativeAudio.loop("bg").then(); // fica tocando musica de fundo
+        });
+    });
   }
   escolha(opcao) {
     this.vibration.vibrate(500);
